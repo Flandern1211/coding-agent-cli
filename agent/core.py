@@ -8,6 +8,7 @@ from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.deepseek import DeepSeekProvider
 
 from .tools import TOOLS
+from .hooks import api_event_handler
 
 # 从环境变量读取 API Key
 API_KEY = os.environ.get("API_KEY")
@@ -29,4 +30,6 @@ agent = Agent(
         "如果有错误就修复并重新运行，直到确认正确。"
     ),
     tools=TOOLS,
+    retries=3,
+    event_stream_handler=api_event_handler,
 )
